@@ -16,11 +16,11 @@ def afficher(event) :
     """ Entrées : Un événement de la souris
         Sortie : Affiche en temps réel les coordonnées de la case du clic de souris"""
     global drapeau, cases, n
-    l = (event.y-2)//100                    # Ligne du clic
-    c = (event.x-2)//100                    # Colonne du clic
+    l = (event.y-2)//100                
+    c = (event.x-2)//100                   
 
     if (n < 10) and (cases[l][c] == 0):
-        if drapeau:                              # drapeau == True
+        if drapeau:                             
             dessin.create_line(100*c+8, 100*l+8, 100*c+96, 100*l+96, width = 5, fill = 'purple')
             dessin.create_line(100*c+8, 100*l+96, 100*c+96, 100*l+8, width = 5, fill = 'purple')
             cases[l][c] = 1
@@ -36,19 +36,30 @@ def afficher(event) :
 
         
         if (n >= 5) and (n <= 9):
-            somme = verif(cases)
-            if somme == 1 or somme == -1:
-                n = gagner(somme)
-        elif n >= 9:
-            n = gagner(0)
+            v=verif(cases)
+            if v == 1 or v == -1:
+                n=gagner(v)
+            elif v == 9:
+                n=gagner(0)
         n += 1
 
 
 def verif(tableau):
-    if (tableau[0][0] + tableau[0][1] + tableau[0][2]) == 3 or (tableau[1][0] + tableau[1][1] + tableau[1][2])== 3 or (tableau[2][0] + tableau[2][1] + tableau[2][2])==3 or (tableau[0][0] + tableau[1][0] + tableau[2][0]) == 3 or (tableau[0][1] + tableau[1][1] + tableau[2][1]) == 3 or (tableau[0][2] + tableau[1][2] + tableau[2][2]) == 3 or (tableau[0][0] + tableau[1][1] + tableau[2][2]) == 3 or (tableau[0][2] + tableau[1][1] + tableau[2][0])== 3:
-        return 1
-    elif (tableau[0][0] + tableau[0][1] + tableau[0][2]) == -3 or (tableau[1][0] + tableau[1][1] + tableau[1][2])== -3 or (tableau[2][0] + tableau[2][1] + tableau[2][2])==-3 or (tableau[0][0] + tableau[1][0] + tableau[2][0]) == -3 or (tableau[0][1] + tableau[1][1] + tableau[2][1]) == -3 or (tableau[0][2] + tableau[1][2] + tableau[2][2]) == -3 or (tableau[0][0] + tableau[1][1] + tableau[2][2]) == -3 or (tableau[0][2] + tableau[1][1] + tableau[2][0])== -3:
-        return -1
+    test=0
+    for i in range(3):
+        for i2 in range(3):
+            if tableau[i][i2] != 0:
+                test+=1
+    if test == 9:
+        return 9
+    else:
+        if (tableau[0][0] + tableau[0][1] + tableau[0][2]) == 3 or (tableau[1][0] + tableau[1][1] + tableau[1][2])== 3 or (tableau[2][0] + tableau[2][1] + tableau[2][2])==3 or (tableau[0][0] + tableau[1][0] + tableau[2][0]) == 3 or (tableau[0][1] + tableau[1][1] + tableau[2][1]) == 3 or (tableau[0][2] + tableau[1][2] + tableau[2][2]) == 3 or (tableau[0][0] + tableau[1][1] + tableau[2][2]) == 3 or (tableau[0][2] + tableau[1][1] + tableau[2][0])== 3:
+            return 1
+        elif (tableau[0][0] + tableau[0][1] + tableau[0][2]) == -3 or (tableau[1][0] + tableau[1][1] + tableau[1][2])== -3 or (tableau[2][0] + tableau[2][1] + tableau[2][2])==-3 or (tableau[0][0] + tableau[1][0] + tableau[2][0]) == -3 or (tableau[0][1] + tableau[1][1] + tableau[2][1]) == -3 or (tableau[0][2] + tableau[1][2] + tableau[2][2]) == -3 or (tableau[0][0] + tableau[1][1] + tableau[2][2]) == -3 or (tableau[0][2] + tableau[1][1] + tableau[2][0])== -3:
+            return -1
+    
+    
+        
     
     
 
@@ -68,11 +79,11 @@ def reinit():
     cases = [[0, 0, 0],
              [0, 0, 0],
              [0, 0, 0]]
-    drapeau = True          # True pour les croix, False pour les ronds
+    drapeau = True          
     n = 1
 
     message.configure(text='Aux tour des croix :')
-    dessin.delete(ALL)      # Efface toutes les figures
+    dessin.delete(ALL)      
     lignes = []
     for i in range(4):
       lignes.append(dessin.create_line(0, 100*i+2, 303, 100*i+2, width=3))
